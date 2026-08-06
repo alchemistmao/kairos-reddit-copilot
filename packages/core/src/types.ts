@@ -80,6 +80,9 @@ export interface Metric {
   checked_at: string;
 }
 
+export type RedditReadMode = 'oauth' | 'public_json';
+export type PostingMode = 'api' | 'manual';
+
 export interface Settings {
   id: boolean;
   daily_post_limit: number;
@@ -89,6 +92,12 @@ export interface Settings {
   max_mentions_per_subreddit_per_week: number;
   warming_mode: boolean;
   paused: boolean;
+  kairos_url: string;
+  classifier_model: string;
+  drafter_model: string;
+  poll_interval_minutes: number;
+  reddit_read_mode: RedditReadMode;
+  posting_mode: PostingMode;
   updated_at: string;
 }
 

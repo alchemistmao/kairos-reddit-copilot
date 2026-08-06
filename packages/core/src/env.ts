@@ -34,31 +34,9 @@ export function supabaseEnv() {
   };
 }
 
-export function redditEnv() {
-  return {
-    clientId: req('REDDIT_CLIENT_ID'),
-    clientSecret: req('REDDIT_CLIENT_SECRET'),
-    username: req('REDDIT_USERNAME'),
-    password: req('REDDIT_PASSWORD'),
-    userAgent: opt(
-      'REDDIT_USER_AGENT',
-      'nodejs:kairos-reddit-copilot:0.1.0 (by /u/unknown)',
-    ),
-  };
-}
-
-export function claudeEnv() {
-  return {
-    apiKey: req('ANTHROPIC_API_KEY'),
-    classifierModel: opt('CLASSIFIER_MODEL', 'claude-haiku-4-5'),
-    drafterModel: opt('DRAFTER_MODEL', 'claude-sonnet-4-6'),
-  };
-}
-
 export function appEnv() {
   return {
     ownerEmail: opt('OWNER_EMAIL', '').toLowerCase(),
-    kairosUrl: opt('KAIROS_URL', 'https://kairos.com'),
     cronSecret: opt('CRON_SECRET', ''),
     pollIntervalMinutes: num('POLL_INTERVAL_MINUTES', 10),
     publishTickSeconds: num('PUBLISH_TICK_SECONDS', 60),

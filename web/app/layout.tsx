@@ -30,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="/">Fila</Link>
                 <Link href="/historico">Histórico</Link>
                 <Link href="/dashboard">Dados</Link>
+                <Link href="/configuracoes">Config</Link>
               </nav>
             </div>
           </header>

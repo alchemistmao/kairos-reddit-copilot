@@ -1,5 +1,5 @@
 import { claude, parseJson, textOf } from './claude';
-import { claudeEnv } from './env';
+import { claudeConfig } from './config';
 import { loadPrompt, render } from './prompts';
 import type { ClassifierResult, RedditPost } from './types';
 
@@ -17,8 +17,11 @@ export async function classifyThread(
     BODY: post.selftext.slice(0, 6000) || '(post sem corpo)',
   });
 
-  const message = await claude().messages.create({
-    model: claudeEnv().classifierModel,
+  const cfg = await claudeConfig();
+  const client = await claude();
+
+  const message = await client.messages.create({
+    model: cfg.classifierModel,
     max_tokens: 512,
     messages: [{ role: 'user', content: prompt }],
   });

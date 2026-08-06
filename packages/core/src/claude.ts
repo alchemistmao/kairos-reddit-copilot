@@ -1,12 +1,15 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { claudeEnv } from './env';
+import { claudeConfig } from './config';
 
-let cached: Anthropic | null = null;
+let cached: { key: string; client: Anthropic } | null = null;
 
-export function claude(): Anthropic {
-  if (cached) return cached;
-  cached = new Anthropic({ apiKey: claudeEnv().apiKey, maxRetries: 3 });
-  return cached;
+/** Cliente Anthropic com a chave vinda do banco (editável em /configuracoes). */
+export async function claude(): Promise<Anthropic> {
+  const { apiKey } = await claudeConfig();
+  if (cached && cached.key === apiKey) return cached.client;
+  const client = new Anthropic({ apiKey, maxRetries: 3 });
+  cached = { key: apiKey, client };
+  return client;
 }
 
 /** Concatena os blocos de texto da resposta. */

@@ -1,6 +1,7 @@
 import {
   appEnv,
   ensureSeed,
+  getSettings,
   errMessage,
   log,
   publishDueDrafts,
@@ -64,7 +65,9 @@ async function main(): Promise<void> {
   await pollTick();
   await publishTick();
 
-  const pollTimer = setInterval(pollTick, Math.max(1, env.pollIntervalMinutes) * 60_000);
+  const settings = await getSettings();
+  const intervalMin = Math.max(1, settings.poll_interval_minutes || env.pollIntervalMinutes);
+  const pollTimer = setInterval(pollTick, intervalMin * 60_000);
   const publishTimer = setInterval(publishTick, Math.max(15, env.publishTickSeconds) * 1000);
 
   const shutdown = (signal: string) => {

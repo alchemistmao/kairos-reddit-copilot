@@ -10,6 +10,12 @@ export const DEFAULT_SETTINGS: Settings = {
   max_mentions_per_subreddit_per_week: 1,
   warming_mode: true,
   paused: false,
+  kairos_url: 'https://kairos.com',
+  classifier_model: 'claude-haiku-4-5',
+  drafter_model: 'claude-sonnet-4-6',
+  poll_interval_minutes: 10,
+  reddit_read_mode: 'oauth',
+  posting_mode: 'api',
   updated_at: new Date(0).toISOString(),
 };
 

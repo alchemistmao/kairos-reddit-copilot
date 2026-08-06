@@ -1,11 +1,12 @@
 import { claude, parseJson, textOf } from './claude';
-import { appEnv, claudeEnv } from './env';
+import { claudeConfig } from './config';
+import { getSettings } from './settings';
 import { loadPrompt, render } from './prompts';
 import type { ClassifierResult, DrafterResult, RedditPost, Subreddit } from './types';
 
 /** UTM por thread, conforme spec 3.6. */
-export function utmUrl(postId: string): string {
-  const base = appEnv().kairosUrl.replace(/\/+$/, '');
+export async function utmUrl(postId: string): Promise<string> {
+  const base = (await getSettings()).kairos_url.replace(/\/+$/, '');
   return `${base}?utm_source=reddit&utm_content=${encodeURIComponent(postId)}`;
 }
 
@@ -27,11 +28,14 @@ export async function draftReplies(
     TITLE: post.title,
     AUTHOR: post.author,
     BODY: post.selftext.slice(0, 8000) || '(post sem corpo)',
-    UTM_URL: utmUrl(post.id),
+    UTM_URL: await utmUrl(post.id),
   });
 
-  const message = await claude().messages.create({
-    model: claudeEnv().drafterModel,
+  const cfg = await claudeConfig();
+  const client = await claude();
+
+  const message = await client.messages.create({
+    model: cfg.drafterModel,
     max_tokens: 4000,
     messages: [{ role: 'user', content: prompt }],
   });

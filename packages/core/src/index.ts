@@ -1,5 +1,6 @@
 export * from './types';
 export * from './env';
+export * from './config';
 export * from './logger';
 export * from './db';
 export * from './settings';

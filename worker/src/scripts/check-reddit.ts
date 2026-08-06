@@ -1,4 +1,4 @@
-import { fetchAccountKarma, fetchNewPosts, redditEnv } from '@kairos/core';
+import { fetchAccountKarma, fetchNewPosts, getSettings, redditConfig } from '@kairos/core';
 
 /**
  * Verificação de ponta a ponta das credenciais do Reddit.
@@ -7,7 +7,10 @@ import { fetchAccountKarma, fetchNewPosts, redditEnv } from '@kairos/core';
  *   node --env-file=.env worker/dist/scripts/check-reddit.js
  */
 async function main(): Promise<void> {
-  const env = redditEnv();
+  const settings = await getSettings();
+  const env = await redditConfig();
+
+  console.log('Modo leitura: ' + settings.reddit_read_mode);
 
   console.log('Conta:      u/' + env.username);
   console.log('User-Agent: ' + env.userAgent);
