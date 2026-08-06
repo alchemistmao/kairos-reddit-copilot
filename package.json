@@ -20,7 +20,8 @@
     "dev:web": "npm run build:core && npm run dev -w @kairos/web",
     "typecheck": "npm run build:core && tsc -b packages/core worker --noEmit false && tsc -p web --noEmit",
     "db:push": "supabase db push",
-    "seed": "npm run build:core && node worker/dist/scripts/seed.js"
+    "seed": "npm run build:core >/dev/null && npm run build -w @kairos/worker >/dev/null && node --env-file=.env worker/dist/scripts/seed.js",
+    "check:reddit": "npm run build:core >/dev/null && npm run build -w @kairos/worker >/dev/null && node --env-file=.env worker/dist/scripts/check-reddit.js"
   },
   "devDependencies": {
     "typescript": "^5.6.3"
