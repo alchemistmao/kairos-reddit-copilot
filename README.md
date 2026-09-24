@@ -1,5 +1,25 @@
 # Kairós Reddit Copilot
 
+Listening engine, AI draft generation and a human approval queue for Reddit. It automates
+about 90% of the work and keeps the human decision in the last step: nothing is ever posted
+without explicit, per-comment approval.
+
+Guard-rails are re-evaluated at send time, not at approval time: at most 3 posts a day, at
+least 2 hours between posts, one product mention per subreddit per week, never twice in the
+same thread (enforced by a partial unique index in the database), and a random 1–15 minute
+delay after approval. Warming mode is on by default, so only `help_only` drafts can go out.
+
+Stack: TypeScript, Next.js 14 (App Router, PWA), Supabase with row-level security, a Railway
+worker on a 10-minute cron, Reddit API via OAuth, and Claude (Haiku for classification,
+Sonnet for drafting, two variants per thread). Prompts live in `prompts/*.md` and are loaded
+at runtime, so they can be changed without a deploy.
+
+The full documentation below is in Portuguese.
+
+---
+
+## Documentação
+
 Motor de escuta + geração de rascunhos + fila de aprovação para engajamento no
 Reddit. Automatiza ~90% do trabalho e deixa a decisão humana no último passo —
 o que evita ban e mantém autenticidade.
